@@ -11,8 +11,9 @@ class Player(BasePlayer):
 
     def __init__(self, p_id):
         super().__init__(p_id)  #Initializes the super class. Do not modify!
-        self.nucleus = None
+        self.nuclei = {}
         self.target = None
+        self.dead = false
         """
         Insert player-specific initialization code here
         """
@@ -24,10 +25,10 @@ class Player(BasePlayer):
     """
     def init_turn(self, board, nodes, max_units):
         super().init_turn(board, nodes, max_units)       #Initializes turn-level state variables
-        if self.nucleus == None:
+        if self.nuclei == None:
             for node in self.nodes:
-                self.nucleus = node
-
+                self.nuclei.add(node)
+        if self.nuc
         if self.target in self.nodes:
             self.nucleus = self.target
         """
@@ -40,9 +41,9 @@ class Player(BasePlayer):
     Called during the placement phase to request player moves
     """
     def player_place_units(self):
-        """
-        Insert player logic here to determine where to place your units
-        """
+        if dead:
+            return self.dict_moves
+
         self.place_unit(self.nucleus, self.max_units)
         return self.dict_moves #Returns moves built up over the phase. Do not modify!
 
@@ -60,9 +61,9 @@ class Player(BasePlayer):
     Called during the move phase to request player moves
     """
     def player_move_units(self):
-        """
-        Insert player logic here to determine where to move your units
-        """
+        if dead:
+            return self.dict_moves
+
         target, strength= self.get_weakest()
         if(target==None):
             print("backtracking")
