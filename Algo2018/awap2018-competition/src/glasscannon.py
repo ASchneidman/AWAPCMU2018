@@ -62,7 +62,9 @@ class Player(BasePlayer):
         Insert player logic here to determine where to move your units
         """
         target, strength= self.get_weakest()
-        if(target != None and strength-1 < self.board.nodes[self.nucleus]['old_units']):
+        if(target==None):
+            self.move_unit(self.nucleus, self.board[self.nucleus][0])
+        elif (target != None and strength-1 < self.board.nodes[self.nucleus]['old_units']):
             self.move_unit(self.nucleus, target, self.board.nodes[self.nucleus]['old_units']-1)
             self.nucleus = target
 
