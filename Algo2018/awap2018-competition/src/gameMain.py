@@ -1,5 +1,5 @@
 from __future__ import print_function
-SERVER_MODE = 1
+SERVER_MODE = 0
 import sys
 import os
 
@@ -41,7 +41,7 @@ def main():
     if (board.G is None):
         print('Error: Generated board is null')
         return
-    
+
     run_game(board, players)
 
 def run_game(board, players):
@@ -123,7 +123,7 @@ def run_game(board, players):
             else:
                 board.G = temp_G
                 board.players = temp_players
-            
+
             curr_turn[str(1+j)]["moves"] = movements["move"];
 
             nodes, player = board.get_owned_nodes(1+j)
@@ -138,12 +138,12 @@ def run_game(board, players):
 
         data["state"].append(curr_turn)
     print('Final Board State')
-    
-    if (VISUALIZE):
+
+    if (not VISUALIZE):
         board.draw()
     # data['score'] = score
     jsonData = json.dumps(data)
     if(SERVER_MODE):
         sys.stdout = temp_stdout
-    print(jsonData,end="")
+    #print(jsonData,end="")
 main()
