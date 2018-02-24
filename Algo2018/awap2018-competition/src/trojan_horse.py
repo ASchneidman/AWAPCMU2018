@@ -98,11 +98,11 @@ class Player(BasePlayer):
 
     def step_and_poop(self, n):
         target, strength = self.get_weakest_neighbor(n)
-        if(target==None):
+        if(target == None):
             print("backtracking")
             for node in self.board[n]:
                 target = node
-            self.move_unit(n, target, self.board.nodes[self.nucleus]['old_units'] - 1)
+            self.move_unit(n, target, self.board.nodes[n]['old_units'] - 1)
             self.target_set.add(target)
         elif (target != None and strength + 2 <= self.board.nodes[n]['old_units']):
             print("we're going to win!")
