@@ -1,5 +1,6 @@
 from base_player import BasePlayer
 import networkx as nx
+import sys
 
 class Player(BasePlayer):
 
@@ -13,7 +14,6 @@ class Player(BasePlayer):
         super().__init__(p_id)  #Initializes the super class. Do not modify!
 
         self.front_line = []
-
         """
         Insert player-specific initialization code here
         """
@@ -27,12 +27,22 @@ class Player(BasePlayer):
         super().init_turn(board, nodes, max_units)       #Initializes turn-level state variables
 
         self.front_line = []
-
         """
         Insert any player-specific turn initialization code here
         """
         return
 
+    def find_dist_to_enemy_node(self, src_node):
+        shortest = 9999
+        for p in range(1,5):
+            if (p != self.player_num):
+                for node in list(self.board):
+                    if (node['owner'] == p):
+                        path_len = nx.shortest_path_length(G=self.board, source=src_node, target=node)
+                        print(str(int(path_len)))
+                        if (path_len < shortest):
+                            shortest = path_len
+        return shortest
 
     """
     Called during the placement phase to request player moves
@@ -52,8 +62,10 @@ class Player(BasePlayer):
                 if(neighbor['owner'] != self.player_num):
                     num_needed_here += neighbor['old_units']
                     self.front_line.append(node)
-            places_needing_units.append((node, num_needed_here))
+            places_needing_units.append((node, num_needed_here, self.find_dist_to_enemy_node(src_node=node)))
         places_needing_units = sorted(filter(lambda x: x[1] > 0,places_needing_units), key = lambda x: x[1])
+
+        places_needing_units = sorted(places_needing_units, key=lambda x: x[2])
 
         for (node,amount) in places_needing_units:
             amount_to_place_here = min(left_to_place,amount+1)

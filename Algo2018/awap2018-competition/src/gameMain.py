@@ -145,5 +145,5 @@ def run_game(board, players):
     jsonData = json.dumps(data)
     if(SERVER_MODE):
         sys.stdout = temp_stdout
-    print(jsonData,end="")
+    #print(jsonData,end="")
 main()
