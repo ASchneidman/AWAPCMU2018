@@ -37,6 +37,13 @@ class Player(BasePlayer):
         """
         return
 
+    def bomb(self, nucleus):
+        for neighbor in self.board[nucleus]:
+            n = self.board.nodes[neighbor]
+            troops = n['old_units'] + 10
+            self.move_unit(nucleus, n, troops)
+            self.nuclei.add(n)
+        self.nuclei.remove(nucleus)
 
     """
     Called during the placement phase to request player moves

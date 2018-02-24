@@ -35,7 +35,6 @@ class Player(BasePlayer):
         """
         return
 
-
     """
     Called during the placement phase to request player moves
     """
