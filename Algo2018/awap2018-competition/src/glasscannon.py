@@ -12,6 +12,7 @@ class Player(BasePlayer):
     def __init__(self, p_id):
         super().__init__(p_id)  #Initializes the super class. Do not modify!
         self.nucleus = None
+        self.target = None
         """
         Insert player-specific initialization code here
         """
@@ -27,6 +28,8 @@ class Player(BasePlayer):
             for node in self.nodes:
                 self.nucleus = node
 
+        if self.target in self.nodes:
+            self.nucleus = self.target
         """
         Insert any player-specific turn initialization code here
         """
@@ -44,7 +47,6 @@ class Player(BasePlayer):
         return self.dict_moves #Returns moves built up over the phase. Do not modify!
 
     def get_weakest(self):
-        print("hello")
         weakest=None
         weakness=99999999999999
         for neighbor in self.board[self.nucleus]:
@@ -63,9 +65,15 @@ class Player(BasePlayer):
         """
         target, strength= self.get_weakest()
         if(target==None):
-            self.move_unit(self.nucleus, self.board[self.nucleus][0])
-        elif (target != None and strength-1 < self.board.nodes[self.nucleus]['old_units']):
+            print("backtracking")
+            for node in self.board[self.nucleus]:
+                target = node
+            self.move_unit(self.nucleus, target, self.board.nodes[self.nucleus]['old_units'] - 1)
+            self.target = target
+        elif (target != None and strength + 2 <= self.board.nodes[self.nucleus]['old_units']):
+            print("we're going to win!")
+            print("our power: %d, their power: %d" % (self.board.nodes[self.nucleus]['old_units'], strength))
             self.move_unit(self.nucleus, target, self.board.nodes[self.nucleus]['old_units']-1)
-            self.nucleus = target
+            self.target = target
 
         return self.dict_moves #Returns moves built up over the phase. Do not modify!
