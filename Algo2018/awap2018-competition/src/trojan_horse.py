@@ -42,7 +42,7 @@ class Player(BasePlayer):
 
     def split(self, nucleus):
         weakest=[]
-        for neighbor in self.board[self.nucleus]:
+        for neighbor in self.board[nucleus]:
             n = self.board.nodes[neighbor]
             weakest.append((n, n['old_units']))
         weakest = sorted(weakest, key=lambda tup: tup[1])
