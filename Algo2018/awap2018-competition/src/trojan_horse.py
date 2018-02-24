@@ -52,6 +52,18 @@ class Player(BasePlayer):
         if dead:
             return self.dict_moves
 
+    def can_bomb(self, nucleus):
+        num_enemies=0
+        enemy_strength=0
+        for neighbor in self.board[nucleus]:
+            n=self.board.nodes[neighbor]
+            if n['owner'] != self.player_num:
+                num_enemies+=1
+                enemy_strength+=n['old_units']
+        if(num_enemies<4): return False
+        elif enemy_strength + 10 * num_enemies > nucleus['old_units']:
+            return False
+        return True
 
     def get_weakest(self):
         weakest=None
