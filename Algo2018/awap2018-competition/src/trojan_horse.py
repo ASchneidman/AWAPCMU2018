@@ -37,6 +37,19 @@ class Player(BasePlayer):
         """
         return
 
+    def split(self, nucleus):
+        weakest=[]
+        for neighbor in self.board[self.nucleus]:
+            n = self.board.nodes[neighbor]
+            weakest.append((n, n['old_units']))
+        weakest = sorted(weakest, key=lambda tup: tup[1])
+        weakest = [i[0] for i in weakest]
+        if (len(weakest) >= 2):
+            self.move_unit(nucleus, weakest[0], (nucleus['old_units']/2-1))
+            self.move_unit(nucleus, weakest[1], (nucleus['old_units']/2-1))
+        elif(len(weakest) == 1):
+            self.move_unit(nucleus, weakest[0], (nucleus['old_units']/2-1))
+
     def bomb(self, nucleus):
         for neighbor in self.board[nucleus]:
             n = self.board.nodes[neighbor]
